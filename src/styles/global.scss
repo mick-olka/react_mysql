@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif !important;
+}
+
+html,
+body,
+#root {
+  position: relative;
+  height: 100vh;
+  background-color: #f6f7f9;
+
+  .py-9 {
+    padding: 6px 0;
+
+    .languages-list {
+      img {
+        width: 16px;
+      }
+
+      span {
+        font-weight: 400;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 20px;
+  box-shadow: rgb(0 0 0 / 24%) 0 0 0 20px inset;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
