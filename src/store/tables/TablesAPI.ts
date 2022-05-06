@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {TableI, TableInfoI} from "../../interfaces/interfaces";
+import {DBRowEl, InsertionResI, TableI, TableInfoI} from "../../interfaces/interfaces";
 
 interface DBQueryParams {
     name: string,
@@ -32,6 +32,15 @@ export const tablesApi = createApi({
                     return {TABLE_NAME: f.TABLE_NAME, TABLE_ROWS: f.TABLE_ROWS}
                 });
             }
+        }),
+
+        insertElementInTable: build.mutation<InsertionResI, {name: string, element: DBRowEl}>({
+            query: ({name, element}) => ({
+                url: `db/${name}`,
+                method: 'PUT',
+                body: {element}
+            }),
+            transformResponse: (response: { data: InsertionResI }, meta, arg) => response.data,
         }),
 
     })

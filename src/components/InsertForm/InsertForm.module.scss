@@ -1,0 +1,17 @@
+
+.list {
+  list-style: none;
+}
+
+.todo {
+  background-color: #e1f3ff;
+  padding: 0.5rem;
+  label {
+    display: grid;
+    grid-template-columns: 1fr 15fr 1fr;
+  }
+}
+
+.delete_icon {
+  font-style: normal;
+}

@@ -1,0 +1,22 @@
+@import "../../styles/global";
+
+.bg {
+  display: none;
+  &.opened {
+    top: 0;
+    right: 0;
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.47);
+  }
+
+  .pane {
+    background-color: #3b6228;
+    width: 20rem;
+    margin: 10rem auto;
+    padding: 1rem;
+    border: 2px solid black;
+  }
+}
