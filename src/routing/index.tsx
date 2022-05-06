@@ -1,17 +1,20 @@
 import { Route, Routes } from 'react-router-dom'
-import {CounterPage} from "../pages/CounterPage";
 import React from "react";
-import {InfoPage} from "../pages/InfoPage";
 import {MainPage} from "../pages/MainPage";
-import {TodosPage} from "../pages/TodoPage";
+import {TablePage} from "../pages/TablePage";
+import {useAppSelector} from "../hooks/hooks";
+import {selectTablesList} from "../store/tables/teblesSlice";
 
 export const Routing = () => {
+    let tablesList = useAppSelector(selectTablesList);
+
     return (
         <Routes>
             <Route element={<MainPage />} path={'/'} />
-            <Route element={<InfoPage />} path={'/info'} />
-            <Route element={<CounterPage />} path={'/counter'} />
-            <Route element={<TodosPage />} path={'/todos'} />
+            {tablesList.map(t => {
+                return <Route key={'route'+t.TABLE_NAME} element={<TablePage name={t.TABLE_NAME} />} path={'/table/'+t.TABLE_NAME} />
+            })}
+            <Route element={<div><h2>Not Found</h2></div>} path={'*'} />
         </Routes>
     );
 }

@@ -1,0 +1,35 @@
+.table_pane_container {
+
+}
+
+.main_pane {
+  font-size: 2rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.db_table_pane {
+  table {
+    margin: 0 auto;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(200,200,200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+td, th {
+  border: 1px solid rgb(157, 157, 157);
+  padding: 10px 20px;
+}
+table {
+  border-collapse: collapse;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+thead {
+  background-color: #545e51;
+  border: 2px solid rgb(129, 129, 129);
+}

@@ -4,7 +4,7 @@ import {Navbar} from "../Navbar/Navbar";
 
 export const Header: React.FunctionComponent = () => (
     <header className={s.App_header}>
-        <div className={s.logo}>Template</div>
+        <div className={s.logo}>MHUTSAL MySQL</div>
         <Navbar />
     </header>
 )

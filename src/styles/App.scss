@@ -1,10 +1,18 @@
+@import "global";
 
 .App {
-  //display: flex;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   text-align: center;
+  background-color: #1f2f24;
+  color: greenyellow;
+}
+
+.content {
+  max-height: 80vh;
+  margin: 2rem auto;
+  overflow: auto;
 }
 
 .App-logo {
@@ -23,11 +31,7 @@
 }
 
 //=====BUTTONS===========
-$yellow: #FFE800;
-$brown: #404040;
-$blue: #1CD3F8;
-$angle: 8px;
-$angle-o: 4px;
+
 .button {
   top: 0;
   left: 0;

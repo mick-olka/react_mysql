@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from './counter/counterSlice';
+import tablesReducer from './tables/teblesSlice';
+import {tablesApi} from "./tables/TablesAPI";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    tablesReducer: tablesReducer,
+    [tablesApi.reducerPath]: tablesApi.reducer
   },
+  middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(tablesApi.middleware),  //  connect middleware like thunk
 });
 
 export type AppDispatch = typeof store.dispatch;
