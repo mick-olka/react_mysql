@@ -1,11 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import tablesReducer from './tables/teblesSlice';
+import userReducer from './user/userSlice';
 import {tablesApi} from "./tables/TablesAPI";
+import {userApi} from "./user/UserAPI";
 
 export const store = configureStore({
   reducer: {
     tablesReducer: tablesReducer,
-    [tablesApi.reducerPath]: tablesApi.reducer
+    userReducer: userReducer,
+    [tablesApi.reducerPath]: tablesApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(tablesApi.middleware),  //  connect middleware like thunk

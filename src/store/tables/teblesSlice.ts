@@ -1,15 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import {TableI, TableInfoI} from '../../interfaces/interfaces';
+import {TableI, TableInfoI, TableRowI} from '../../interfaces/interfaces';
 
 export interface TablesStateI {
     table: TableI;
     status: 'idle' | 'loading' | 'failed';
-    tablesList: TableInfoI[]
+    tablesList: TableRowI[]
+}
+
+enum SQLTypes {
+    Number = 3,
+    Date = 10,
+    String = 253
 }
 
 const initialState: TablesStateI = {
-    table: { name: 'default', result: [{k_tt: 243, n_tt: 'test'}, {k_tt: 243, n_tt: 'test'}] },
+    table: { body: [], fields: [] },
     status: 'idle',
     tablesList: []
 };
@@ -35,9 +41,18 @@ export const tablesSlice = createSlice({
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         setTable: (state, action: PayloadAction<TableI>) => {
-            state.table = action.payload;
+            let newData = { ...action.payload };
+            action.payload.fields.forEach(f => {
+                if (f.type === SQLTypes.Date) {
+                    newData.body = newData.body.map(row => {
+                        // @ts-ignore
+                        return { ...row, [f.name]: row[f.name].split('T')[0] };
+                    });
+                }
+            });
+            state.table = newData;
         },
-        setTablesList: (state, action: PayloadAction<TableInfoI[]>) => {
+        setTablesList: (state, action: PayloadAction<TableRowI[]>) => {
             state.tablesList = action.payload;
         },
     },

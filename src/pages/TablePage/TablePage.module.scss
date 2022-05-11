@@ -30,6 +30,26 @@ table {
   font-size: 0.8rem;
 }
 thead {
+  position: sticky;
+  top: 0;
   background-color: #545e51;
   border: 2px solid rgb(129, 129, 129);
+  color: #1f2f24;
+  font-size: 1.2rem;
+}
+
+.control_pane {
+  position: fixed;
+  button {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    background-color: #b4a64a;
+    margin: 2rem;
+  }
+}
+
+.control_cell {
+  & > * {
+    margin: 0 0.5rem;
+  }
 }

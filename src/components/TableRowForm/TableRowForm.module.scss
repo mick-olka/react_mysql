@@ -1,0 +1,17 @@
+
+.container {
+  form {
+    width: 20rem;
+    div {
+      margin: 1rem 0;
+      label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        input {
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}

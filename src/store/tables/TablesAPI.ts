@@ -1,5 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {DBRowEl, InsertionResI, TableI, TableInfoI} from "../../interfaces/interfaces";
+import {DBRowEl, InsertionResI, QueryDBResponseI} from "../../interfaces/interfaces";
+import config from "../config/config";
+import {setToken} from "../../utils/tools";
 
 interface DBQueryParams {
     name: string,
@@ -9,28 +11,32 @@ interface DBQueryParams {
 
 export const tablesApi = createApi({
     reducerPath: 'tablesAPI',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://192.168.0.103:5000/'}),
+    baseQuery: fetchBaseQuery({baseUrl: config.baseUrl}),
     endpoints: (build) => ({
 
-       fetchTable: build.query<TableI, DBQueryParams>({
+       fetchTable: build.query<QueryDBResponseI, DBQueryParams>({
            query: ({name, limit = 100, page = 1}) => ({
                url: `db/${name}`,
                params: {
                    _limit: limit,
                    _page: page
-               }
+               },
+               headers: {token: setToken()}
            }),
-           transformResponse: (response: { data: TableI }, meta, arg) => response.data,
        }),
 
-        fetchAllTablesInfo: build.query<TableInfoI[], void>({
+        fetchAllTablesInfo: build.mutation<QueryDBResponseI, void>({
             query: () => ({
-                url: 'db/all'
+                url: 'db/all',
+                method: 'POST',
+                body: {tablesList: config.tablesList},
+                headers: {token: setToken()}
             }),
-            transformResponse: (response: { data: TableInfoI[] }, meta, arg) => {
-                return response.data.map((f: TableInfoI) => {
+            transformResponse: (response: QueryDBResponseI, meta, arg) => {
+                const result = response.table.body.map(f => {
                     return {TABLE_NAME: f.TABLE_NAME, TABLE_ROWS: f.TABLE_ROWS}
                 });
+                return { table: { body: result, fields: response.table.fields }, err: null }
             }
         }),
 
@@ -38,9 +44,27 @@ export const tablesApi = createApi({
             query: ({name, element}) => ({
                 url: `db/${name}`,
                 method: 'PUT',
-                body: {element}
+                body: {element},
+                headers: {token: setToken()}
             }),
-            transformResponse: (response: { data: InsertionResI }, meta, arg) => response.data,
+        }),
+
+        updateElementInTable: build.mutation<any, {name: string, element: DBRowEl, prevElement: DBRowEl}>({
+            query: ({name, element, prevElement}) => ({
+                url: `db/${name}`,
+                method: 'PATCH',
+                body: {element, prevElement},
+                headers: {token: setToken()}
+            }),
+        }),
+
+        deleteElementInTable: build.mutation<any, {name: string, element: DBRowEl}>({
+            query: ({name, element}) => ({
+                url: `db/${name}`,
+                method: 'POST',
+                body: {element},
+                headers: {token: setToken()}
+            }),
         }),
 
     })

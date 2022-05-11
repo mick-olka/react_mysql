@@ -1,54 +1,90 @@
-export interface ITodo {
-    title: string
-    id: number
-    completed: boolean
-}
 
 export interface TableInfoI {
     TABLE_NAME: string,
     TABLE_ROWS: number
 }
 
-export interface TableI {
+export interface FieldInfoI {
+    catalog: string,
+    db: string,
+    table: string,
+    orgTable: string,
     name: string,
-    result: DBTable
+    orgName: string,
+    charsetNr: number,
+    length: number,
+    type: number,
+    flags: number,
+    decimals: number,
+    zeroFill: boolean,
+    protocol41: boolean
 }
 
-export type DBTable = Array<DovTovI | DovFirmI | PreyskurantI | RealTovI>;
-export type DBRowEl = DovTovI | DovFirmI | PreyskurantI | RealTovI;
-
-export interface DovTovI {
-    k_tt: number,
-    n_tt: string
+export interface QueryDBResponseI {
+    table: TableI,
+    err: SQLError | null
 }
 
-export interface DovFirmI {
-    k_firm: number,
-    n_firm: string
+export interface UserI {
+    name: string,
+    email: string,
+    status: 0 | 1 | 2 | 3
 }
 
-export interface RealTovI {
-    k_pp: number,
-    kil: number,
-    d_real: string,
-    d_spl: string,
-    index: number
+export interface QueryUserResponseI {
+    code: 0 | 1,
+    msg: string,
+    user: UserI,
+    err: SQLError | null
 }
 
-export interface PreyskurantI {
-    k_pp: number,
-    k_firm: number,
-    k_tt: number,
-    c_yo: number
+export interface TableI {
+    fields: FieldInfoI[],
+    body: TableRowI[]
+}
+
+export type DBRowEl = TableRowI;
+
+export interface TableRowI {
+    [index: string]: string | number,
 }
 
 export interface InsertionResI {
-    "fieldCount": number,
-    "affectedRows": number,
-    "insertId": number,
-    "serverStatus": number,
-    "warningCount": number,
-    "message": string,
-    "protocol41": boolean,
-    "changedRows": number
+    result: {
+        "fieldCount": number,
+        "affectedRows": number,
+        "insertId": number,
+        "serverStatus": number,
+        "warningCount": number,
+        "message": string,
+        "protocol41": boolean,
+        "changedRows": number
+    } | null,
+    err: SQLError | null,
+}
+
+export interface SQLError {
+    code: string,
+    errno: number,
+    sqlMessage: string,
+    sqlState: string,
+    index: number,
+    sql: string
+}
+
+export interface UserReqDataI {
+    id: number,
+    name: string,
+    password: string,
+    email: string,
+    status: 0 | 1 | 2 | 3 //  admin \ r-- \ rw- \ rwd
+}
+
+export interface LoginFormValuesI {
+    name: string
+    password: string,
+}
+
+export interface RegisterFormValuesI extends LoginFormValuesI {
+    email: string,
 }

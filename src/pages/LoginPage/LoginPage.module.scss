@@ -1,0 +1,25 @@
+
+.container {
+  width: 30rem;
+  margin: 0 auto;
+  text-align: center;
+  .auth_form {
+    width: 25rem;
+    font-size: 1.3rem;
+    .submit_btn {
+      padding: 0.5rem;
+      font-size: 1.5rem;
+      width: 100%;
+      background-color: #798131;
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem;
+      input {
+        font-size: 1.3rem;
+        background-color: #6e8c3b;
+      }
+    }
+  }
+}

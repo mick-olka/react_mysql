@@ -1,25 +1,48 @@
 import React from 'react';
-import {TableI} from "../../interfaces/interfaces";
+import {TableI, TableRowI} from "../../interfaces/interfaces";
 import s from "../../pages/TablePage/TablePage.module.scss";
-export const Table: React.FC<TableI> = ({name, result}) => {
+import {ModalPane} from "../ModalPane/ModalPane";
+import {TableRowForm} from "../TableRowForm/TableRowForm";
 
-    let fields = [];
-    const table_body = result.map((row, i) => {
+interface TablePropsI {
+    table: TableI,
+    name: string,
+    onElementDelete?: (element: TableRowI) => void
+    onElementUpdate?: (element: TableRowI, prevElement: TableRowI) => void
+}
+
+export const Table: React.FC<TablePropsI> = ({name, table, onElementDelete, onElementUpdate}) => {
+
+    let fields: { name: string, type: number }[] = table.fields.map(f => {
+        return {name: f.name, type: f.type}
+    });
+    if (table.body.length < 1) {
+        return <div className={s.db_table_pane} ><h2>Table is Empty</h2></div>
+    }
+
+    const controlCell = (name: string, row: TableRowI): React.ReactNode | null => {
+        if (onElementDelete || onElementUpdate) {
+            return (
+                <th className={s.control_cell} >
+                    { onElementDelete && <button onClick={() => onElementDelete(row)} >del</button> }
+                    { onElementUpdate && <ModalPane btnText={'update'} ><> <h2>Update</h2>
+                        <TableRowForm onSubmit={(values) => onElementUpdate(row, values)} tableRow={row} />
+                    </>
+                    </ModalPane> }
+                </th>
+            );
+        }
+        return null;
+    }
+
+    const table_body = table.body.map((row, i) => {
         return <tr key={'row'+i} >
-            {Object.entries(row).map(([key, value]) => {
-                return <th key={key+i} >{value}</th>;
+            {fields.map((f) => {
+                return <th key={'cn'+i+f.name} >{row[f.name]}</th>;
             })}
+            { controlCell(name, row) }
         </tr>
     });
-
-    if (result.length < 1) {
-        return <div className={s.db_table_pane} ><h2>Table is Empty</h2></div>
-    } else {
-        //  get fields of table
-        fields = Object.entries(result[0]).map(([key, value]) => {
-            return key;
-        });
-    }
 
     return (
         <div className={s.db_table_pane} >
@@ -27,9 +50,10 @@ export const Table: React.FC<TableI> = ({name, result}) => {
             <table>
                 <thead>
                 <tr>
-                    {fields.map((f, i) => {
-                        return <th key={f} > {f} </th>
+                    {fields.map((f) => {
+                        return <th key={'th'+f.name} > {f.name} </th>
                     })}
+                    { onElementDelete && <th> * </th> }
                 </tr>
                 </thead>
                 <tbody>

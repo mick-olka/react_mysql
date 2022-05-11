@@ -6,17 +6,38 @@
     top: 0;
     right: 0;
     display: block;
-    position: absolute;
+    position: fixed;
     height: 100%;
     width: 100%;
     background-color: rgba(128, 128, 128, 0.47);
   }
 
   .pane {
+    position: relative;
     background-color: #3b6228;
-    width: 20rem;
-    margin: 10rem auto;
-    padding: 1rem;
+    min-width: 20rem;
+    min-height: 4rem;
+    width: fit-content;
+    margin: 15rem auto;
+    padding: 2rem 1rem;
     border: 2px solid black;
+    color: black;
+    button {
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      background-color: #b4a64a;
+      margin: 0.5rem;
+    }
+    .close {
+      height: 2rem;
+      width: 2rem;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: grey;
+      margin: 0;
+      padding: 0 0 0.5rem 0;
+    }
   }
 }
